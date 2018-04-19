@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+
+	<!-- DispatcherServlet Context: defines this servlet's request-processing 
+		infrastructure -->
+
+	<!-- Enables the Spring MVC @Controller programming model -->
+	<mvc:annotation-driven />
+	<!-- Handles HTTP GET requests for /resources/** by efficiently serving 
+		up static resources in the ${webappRoot}/resources directory -->
+	<mvc:resources mapping="/resources/**" location="/resources/" />
+	<mvc:resources mapping="/scripts/**" location="/scripts/" />
+
+	<!-- Resolves views selected for rendering by @Controllers to .jsp resources 
+		in the /WEB-INF/views directory -->
+<!-- 	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/views/" />
+		<property name="suffix" value=".jsp" />
+	</bean> -->
+
+
+    <bean id="contentNegotiationManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
+        <property name="defaultContentType" value="TEXT/HTML"/>
+        <property name="parameterName" value="type"/>
+        <property name="favorParameter" value="true"/>
+        <property name="ignoreUnknownPathExtensions" value="false"/>
+        <property name="ignoreAcceptHeader" value="false"/>
+        <property name="useJaf" value="true"/>
+    </bean>
+
+    <mvc:view-resolvers>
+        <mvc:content-negotiation>
+            <mvc:default-views>
+                <bean class="com.company.app.view.excel.CommonExcelView"/>
+            </mvc:default-views>
+        </mvc:content-negotiation>
+        <!-- <mvc:jsp prefix="/WEB-INF/views/" suffix=".jsp"/> -->
+        <mvc:tiles view-class="org.springframework.web.servlet.view.tiles3.TilesView"></mvc:tiles>
+    </mvc:view-resolvers>
+    
+<!-- 
+	<bean p:order="1" 
+	class="org.springframework.web.servlet.view.BeanNameViewResolver"/>
+	
+	<bean class="org.springframework.web.servlet.view.UrlBasedViewResolver"
+		p:order="2" p:viewClass="org.springframework.web.servlet.view.tiles3.TilesView" /> -->
+		
+	<!--Don't add suffix or prefix like you do with .jsp files -->
+	<bean id="tilesConfigurer"
+		class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
+		<property name="definitions">
+			<value>/WEB-INF/tiles/tiles.xml</value>
+		</property>
+	</bean>
+
+	<context:component-scan base-package="com.company.app" />
+
+	<!-- MultipartResolver 설정 -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="100000000" />
+		<property name="maxInMemorySize" value="100000000" />
+	</bean>
+
+</beans>

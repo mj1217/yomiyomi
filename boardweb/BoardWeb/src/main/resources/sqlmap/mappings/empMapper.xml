@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="emp">
+
+	<select id="getEmployeeAll" resultType="map">
+		select first_name "firstName",
+				last_name "lastName",
+				 d.department_id "deptid",
+				d.department_name "deptName",
+				salary "salary",
+				hire_date "hireDate"
+		from hr.employees e , hr.departments d
+		where e.department_id = d.department_id
+		order by first_name
+
+	</select>
+	
+	
+
+
+
+	<select id="getEmpList" resultType="emp">
+	select a.* from(select rownum rn, b.* from(
+		select * from hr.employees 
+		 <where>
+		 <if test="searchKeyword != null and searchKeyword != ''" >
+ 		 	<if test="searchCondition == 'last_name' ">
+		 		 and last_name like '%' ||#{searchKeyword}||'%'
+		 	</if>
+		 	<if test="searchCondition == 'salary' ">
+		 		 salary like '%' ||#{searchKeyword}||'%'
+		 	</if>
+		 </if>
+		 </where>
+		 order by employee_id
+		  )b)a
+		 where rn between #{first} and #{last}	
+	</select>
+	
+	<select id="getCount" resultType="int" parameterType="emp">
+		select count(*) 
+		from hr.employees
+		 <where>
+		 <if test="searchKeyword != null and searchKeyword != ''" >
+ 		 	<if test="searchCondition == 'last_name' ">
+		 		 and last_name like '%' ||#{searchKeyword}||'%'
+		 	</if>
+		 	<if test="searchCondition == 'salary' ">
+		 		  salary like '%' ||#{searchKeyword}||'%'
+		 	</if>
+		 </if>
+		 </where>
+	</select>
+	
+	<select id="getDeptEmpStatistic" resultType="map">
+		select dept.department_name "name", count(*) "cnt", avg(emp.salary) "sal"
+		from hr.departments dept join hr.employees emp
+		on(dept.department_id = emp.department_id)
+		group by dept.department_name
+	</select>
+	
+
+</mapper>

@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="board">
+	<resultMap type="board" id="boardResult">
+		<id property="seq" column="SEQ"></id> <!--  property는 vo와 반드시 일치 -->
+		<result property="title" column="title" /> <!-- column은 db 컬럼과 일치 -->
+		<result property="writer" column="writer" />
+		<result property="content" column="content" />
+		<result property="regDate" column="regDate" />
+		<result property="cnt" column="cnt" />
+		<result property="uploadFileName" column="upload_File_Name" />
+		
+	</resultMap>
+
+
+<!-- 	<select id="getBoardList" resultType="board">	 id 값은 메소드 명 resultMap은 위 resultMap id와 매치 resultType : sql-map-config에 alias 사용 (원래는 경로 다 써야함)
+		<![CDATA[
+		select 	seq 	
+				,title
+				,writer
+				,content
+				,regDate
+				,cnt
+				,upload_File_Name 	
+		 from board  
+		 ]]>
+		 <where>
+		 <if test="searchKeyword != null and searchKeyword != ''" >
+ 		 	<if test="searchCondition == 'title' ">
+		 		 and title like '%' ||#{searchKeyword}||'%'
+		 	</if>
+		 	<if test="searchCondition == 'content' ">
+		 		 content like '%' ||#{searchKeyword}||'%'
+		 	</if>
+		 </if>
+		 </where>
+		 order by seq desc			
+	</select> resultmap 쓰지않고 별명 지정(as "uploadFileName") 후 result type으로 해도된다.
+				혹은 sql-map-config-spring에 setting name="mapUnderscoreToCamelCase 추가	
+				<where> 대신 where 1=1 로 해도 됨. 구문상 and 안 붙이는게 맞지만 <where> 이 알아서 제거
+	
+	 -->
+	 
+	 	<select id="getBoardList" resultType="board">	 <!--id 값은 메소드 명 --> <!-- resultMap은 위 resultMap id와 매치 --> <!-- resultType : sql-map-config에 alias 사용 (원래는 경로 다 써야함) -->
+		select a.* from (select rownum rn, b.* from (
+		<![CDATA[
+		select 	seq 	
+				,title
+				,writer
+				,content
+				,regDate
+				,cnt
+				,upload_File_Name 	
+		 from board  
+		 ]]>
+		 <where>
+		 <if test="searchKeyword != null and searchKeyword != ''" >
+ 		 	<if test="searchCondition == 'title' ">
+		 		 and title like '%' ||#{searchKeyword}||'%'
+		 	</if>
+		 	<if test="searchCondition == 'content' ">
+		 		 content like '%' ||#{searchKeyword}||'%'
+		 	</if>
+		 </if>
+		 </where>
+		 order by seq desc		
+		 )b)a
+		 where rn between #{first} and #{last}	
+	</select> <!-- resultmap 쓰지않고 별명 지정(as "uploadFileName") 후 result type으로 해도된다. -->
+				<!-- 혹은 sql-map-config-spring에 setting name="mapUnderscoreToCamelCase 추가 -->	
+				<!-- <where> 대신 where 1=1 로 해도 됨. 구문상 and 안 붙이는게 맞지만 <where> 이 알아서 제거 -->
+	
+	<select id="getBoardListMap" resultType="com.yedam.app.common.LowerKeyMap">	 
+		select * from board order by seq desc
+	</select> 
+	
+	
+	
+	<select id="getBoard" resultType="board" parameterType="board">
+		select * from board where seq=#{seq}
+	</select>
+	
+	
+	<insert id="insertBoard" parameterType="board">
+		<selectKey keyProperty="seq" resultType="int" order="BEFORE">
+		select nvl(max(seq),0)+1 from board
+		</selectKey>
+		INSERT INTO BOARD(
+						 SEQ,
+						 TITLE, 
+						 WRITER,
+						 CONTENT,
+						 REGDATE
+						 <if test="uploadFileName != null"> 
+		 			    	,upload_File_Name
+		 			   	</if>
+						 )
+		 VALUES(
+		 		#{seq}
+		 		,#{title}
+		 		,#{writer}
+		 		,#{content}
+		 		,sysdate
+		 	<if test="uploadFileName != null"> 
+		 		,#{uploadFileName}
+		 	</if>	
+		 		)
+	</insert> 
+	
+<!-- 	<insert id="insertBoard" statementType="CALLABLE" parameterType="board">
+		{call BOARD_INS_PROC(#{title}
+							,#{writer}
+							,#{content}
+							,#{seq, mode=OUT, jdbcType=NUMERIC, javaType=int}
+							,#{outMsg, mode=OUT, jdbcType=VARCHAR, javaType=string}	
+							)
+		}
+	</insert> -->
+	
+	
+	
+	<update id="updateBoard" parameterType="board">
+		update board set title=#{title}, content=#{content},writer=#{writer} where seq=#{seq}
+	</update>
+	
+	
+	<delete id="deleteBoard" parameterType="board">
+		delete board where seq=#{seq}
+	</delete>
+	
+	
+	<select id="count" resultType="int">
+		select count(*) from board
+	</select>
+	
+	
+	<delete id="deleteBoardList" parameterType="list">
+		DELETE FROM BOARD 
+		WHERE SEQ IN
+		<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+ 	</delete> <!-- LIST는 ARRAYLIST의 ALIAS. -->
+	
+	<select id="getCount" resultType="int" parameterType="board">
+		select count(*) 
+		from board
+		 <where>
+		 <if test="searchKeyword != null and searchKeyword != ''" >
+ 		 	<if test="searchCondition == 'title' ">
+		 		 and title like '%' ||#{searchKeyword}||'%'
+		 	</if>
+		 	<if test="searchCondition == 'content' ">
+		 		 content like '%' ||#{searchKeyword}||'%'
+		 	</if>
+		 </if>
+		 </where>
+	</select>
+	
+
+</mapper>

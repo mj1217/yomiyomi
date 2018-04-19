@@ -1,0 +1,11 @@
+	<select id="getBoardListMap" resultType="map" >
+		SELECT *
+		  FROM board
+		 ORDER BY seq DESC  
+	</select>
+
+
+	 public List<Map<String, Object>> getBoardListMap(){
+		 System.out.println("mybatis getBoardListMap");
+		 return sqlSession.selectList("board.getBoardListMap");
+	 }

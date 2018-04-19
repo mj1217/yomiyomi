@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="dept_report" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="0" uuid="18630cf9-347f-4b7d-baa7-59d90c8366d6">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" fontName="Arial" fontSize="26" isBold="true" pdfFontName="Helvetica-Bold"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#FFFFFF" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<queryString>
+		<![CDATA[select * from departments order by department_name]]>
+	</queryString>
+	<field name="DEPARTMENT_ID" class="java.math.BigDecimal"/>
+	<field name="DEPARTMENT_NAME" class="java.lang.String"/>
+	<field name="MANAGER_ID" class="java.math.BigDecimal"/>
+	<field name="LOCATION_ID" class="java.math.BigDecimal"/>
+	<background>
+		<band height="822" splitType="Stretch">
+			<image vAlign="Bottom">
+				<reportElement positionType="Float" mode="Opaque" x="-20" y="313" width="85" height="409" backcolor="#000000" uuid="4841f640-301f-44b7-9262-0cabc6b66016"/>
+				<imageExpression><![CDATA["silhouette.jpg"]]></imageExpression>
+			</image>
+			<rectangle>
+				<reportElement positionType="Float" x="-20" y="313" width="20" height="409" backcolor="#000000" uuid="00cd4ad8-c5e5-4ca0-9be0-e6b3681075a5"/>
+				<graphicElement>
+					<pen lineWidth="0.0"/>
+				</graphicElement>
+			</rectangle>
+			<frame>
+				<reportElement mode="Opaque" x="-20" y="722" width="105" height="100" forecolor="#666666" backcolor="#666666" uuid="52f3d6e4-0186-4bb2-a8c9-2ee1adc8a9ab"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textField isBlankWhenNull="true">
+					<reportElement style="Column header" x="0" y="0" width="104" height="73" forecolor="#000000" uuid="7fcd9ad5-6fde-48d2-9e8a-022d6b6ba438"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="58" isBold="true" pdfFontName="Helvetica-Bold"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="0" y="77" width="104" height="20" forecolor="#000000" uuid="cb4c1a9a-3282-417c-aa11-901d2caf4a5c"/>
+					<box leftPadding="4" rightPadding="4"/>
+					<textElement textAlignment="Center">
+						<font size="16" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement mode="Transparent" x="42" y="73" width="20" height="1" uuid="7571adc3-6671-43e2-9b32-b456d4be95f2"/>
+				</line>
+			</frame>
+		</band>
+	</background>
+	<title>
+		<band height="152" splitType="Stretch">
+			<staticText>
+				<reportElement style="Title" x="0" y="0" width="555" height="115" uuid="d6f94186-3f96-479e-bd6a-4436140949e8"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="54" isBold="false" pdfFontName="Helvetica"/>
+				</textElement>
+				<text><![CDATA[DEPT LIST]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="SubTitle" x="234" y="115" width="321" height="37" uuid="9dd0fc95-6155-44e3-b8ba-3c2ae57695d6"/>
+				<textElement textAlignment="Right">
+					<font size="26"/>
+				</textElement>
+				<text><![CDATA[Silhouette SubTitle]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="97" y="5" width="458" height="20" backcolor="#666666" uuid="45feeb97-2d43-4fe2-8349-fb552be71b20"/>
+				<staticText>
+					<reportElement style="Column header" x="112" y="0" width="114" height="15" uuid="e8357868-8ba5-4270-ba67-a34534ab5f54"/>
+					<text><![CDATA[DEPARTMENT_ID]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="4" y="0" width="114" height="15" uuid="c479d693-b1b7-4821-8783-ecdd895dfead"/>
+					<text><![CDATA[DEPARTMENT_NAME]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="228" y="0" width="114" height="15" uuid="cb9f25cd-4e8d-4161-a141-495c7cb9764c"/>
+					<text><![CDATA[MANAGER_ID]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="Column header" x="342" y="0" width="114" height="15" uuid="d82acb9c-bcc0-48b1-bc40-39a00e35e64a"/>
+					<text><![CDATA[LOCATION_ID]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<frame>
+				<reportElement x="97" y="1" width="458" height="15" uuid="03225859-c035-459e-b49a-5cb324f0e4a1"/>
+				<textField>
+					<reportElement style="Detail" x="112" y="0" width="114" height="15" uuid="cb20df28-62b8-47c7-8248-f0c3d1325e20"/>
+					<textFieldExpression><![CDATA[$F{DEPARTMENT_ID}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Detail" x="2" y="0" width="114" height="15" uuid="5f3c5479-dd65-4175-9512-a1a49b1831aa"/>
+					<textFieldExpression><![CDATA[$F{DEPARTMENT_NAME}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Detail" x="228" y="0" width="114" height="15" uuid="b70f400e-49cf-44b7-905e-4db05c1da4ed"/>
+					<textFieldExpression><![CDATA[$F{MANAGER_ID}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Detail" x="342" y="0" width="114" height="15" uuid="7753c04b-5830-42ce-9510-a1e421a47174"/>
+					<textFieldExpression><![CDATA[$F{LOCATION_ID}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="97" y="16" width="458" height="1" uuid="d1de40b2-ff84-487e-99f9-5aae59c06665"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="100" splitType="Stretch">
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement style="Column header" x="424" y="0" width="131" height="20" forecolor="#000000" uuid="9ea07fde-5c03-4796-ba7c-2894000ed387"/>
+				<textElement textAlignment="Right">
+					<font size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" x="96" y="0" width="267" height="20" forecolor="#000000" uuid="bd2224bf-836c-4715-a7e1-6450233cdeed"/>
+				<textElement>
+					<font size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Silhouette Title Report]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>
