@@ -68,6 +68,18 @@
 		</bean>
 	</mvc:interceptors>
 	
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**/*"/>
+			<mvc:exclude-mapping path="/main/*"/>
+			<mvc:exclude-mapping path="/login*"/>
+			<bean class="com.yedam.app.common.LoginInterceptor"/>
+
+		</mvc:interceptor>
+	</mvc:interceptors>
+	
+	
+	
 	<bean id="myHandler" class="com.yedam.app.view.websocket.SocketHandler"/>
 	
 		<!-- 해당 태그들은 크론탭을 설정에 필요한 태그들 -->
