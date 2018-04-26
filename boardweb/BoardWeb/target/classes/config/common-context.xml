@@ -74,7 +74,6 @@
 			<mvc:exclude-mapping path="/main/*"/>
 			<mvc:exclude-mapping path="/login*"/>
 			<bean class="com.yedam.app.common.LoginInterceptor"/>
-
 		</mvc:interceptor>
 	</mvc:interceptors>
 	
