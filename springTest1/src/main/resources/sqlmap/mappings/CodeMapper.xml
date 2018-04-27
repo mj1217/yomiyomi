@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="code">
+
+	<resultMap type="map" id="codeResult">
+	<id property="code_no" column="CODE_NO"/>
+	<result property="code_name" column="CODE_NAME"/>
+ 	</resultMap>
+	
+
+	<select id="getCodeList" resultMap="codeResult" parameterType="map"> 
+		select code_no,code_name
+		from code
+		where CODE_CATEGORY='모집구분코드'
+	</select>
+
+	
+
+</mapper>

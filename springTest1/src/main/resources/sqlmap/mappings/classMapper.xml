@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="class">
+	<resultMap type="class" id="classResult">
+		<id property="cl_no" column="cl_no" />
+		<result property="class_name" column="class_name" />
+		<result property="address" column="address" />
+		<result property="timeTable" column="timetable" />
+		<result property="totalTime" column="totaltime" />
+		<result property="class_cd" column="class_cd" />
+		<result property="totaldays" column="totaldays" />
+	</resultMap>
+
+	<select id="getClassListNP" resultType="class">
+		SELECT cl_no
+			,class_name
+			,address
+			,totaltime
+			,GET_CODENAME(class_cd) "class_nm"
+			,totaldays
+		FROM class
+		ORDER BY cl_no DESC
+	</select>
+	
+	<select id="getClassAttList" resultType="class">
+		SELECT cl_no
+			,class_name
+			,address
+			,totaltime
+			,class_cd
+			,totaldays
+		FROM class
+		where class_cd='C1'
+		ORDER BY cl_no asc
+		
+	</select>
+
+	<select id="getClassList" resultType="class">
+	select a.* from ( select rownum rn, b.* from (
+	
+		SELECT cl_no
+			,class_name
+			,address
+			,totaltime
+			,GET_CODENAME(class_cd) "class_nm"
+			,totaldays
+		FROM class
+		ORDER BY cl_no DESC
+		
+	) b ) a where rn between #{first} and #{last}
+	</select>
+	
+	<select id="getClassList2" resultType="class">
+		select * from class
+	</select>
+
+	<select id="getClass" resultType="class" parameterType="class">
+		SELECT cl_no
+			,class_name
+			,address
+			,totaltime
+			,class_cd
+			,GET_CODENAME(class_cd) "class_nm"
+			,totaldays
+			,timetable
+		FROM class 
+		WHERE cl_no=#{cl_no}
+	</select>
+
+	<select id="getCount" resultType="int">
+		select count(*) from class
+	</select>
+
+	<insert id="insertClass" parameterType="class">
+		<selectKey keyProperty="cl_no" resultType="int" order="BEFORE">
+			SELECT NVL(MAX(cl_no),0)+1 FROM CLASS
+		</selectKey>
+		INSERT INTO class(
+					cl_no
+					,class_name
+					,address
+					,totaltime
+					,totaldays
+					,class_cd
+		<if test="timeTable != null and timeTable != ''">
+			,timetable
+		</if>
+		)
+		VALUES(
+					#{cl_no},
+					#{class_name},
+					#{address},
+					#{totalTime},
+					#{totaldays},
+					#{class_cd}
+		<if test="timeTable != null and timeTable != ''">
+			,#{timeTable}
+		</if>
+		)
+	</insert>
+
+	<update id="updateClass" parameterType="class">
+
+		UPDATE class SET
+					class_name=#{class_name}
+					,address=#{address}
+		<if test="timeTable != null and timeTable != ''">
+					,timetable=#{timeTable}
+		</if>
+					,totaltime=#{totalTime}
+					,class_cd=#{class_cd}
+					,totaldays=#{totaldays}
+		WHERE cl_no=#{cl_no}
+
+	</update>
+
+	<delete id="deleteClass" parameterType="class">
+		DELETE class WHERE
+		cl_no=#{cl_no}
+	</delete>
+
+</mapper>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="classAtt">
+
+	<resultMap type="map" id="classAttResult">
+	<id property="name" column="name"/>
+ 	</resultMap>
+ 	
+ 	
+ 	<resultMap type="map" id="subjectAttResult">
+	<id property="su_no" column="su_no"/>
+	<result property="subject" column="subject"/>
+	<result property="totaltime" column="totaltime"/>
+ 	</resultMap>
+ 	
+ 	
+ 	
+
+
+	
+	
+	
+	<select id="getAttList" resultMap="classAttResult" parameterType="Integer">
+	
+		select m.name
+		from class_info ci join member m
+		on(ci.member_id = m.member_id)
+		where ci.cl_no=#{cl_no}
+	
+	</select>
+	
+	
+	<select id="getAttSubjectList" resultMap="subjectAttResult" parameterType="Integer">
+	
+		select su_no,subject,totaltime
+    	from subject
+    	where cl_no=#{cl_no}
+	
+	</select>
+	
+	
+	<select id="getAttTimeList" resultType="map" parameterType="String">
+	
+		select sa.a_id "a_id",m.name "name",sa.attendance "attendance",sa.t_id "t_id"
+		from class_info ci join member m
+		on(ci.member_id = m.member_id)
+        join subject_attendance sa
+        on(m.name = sa.s_name)
+		where m.name=#{name}
+	
+	</select>
+	
+
+	<select id="getAttSubjectOne" resultType="map" parameterType="String">
+		select subject "s_id"
+		from subject_timetable
+		where t_id=#{t_id}
+	
+	</select>
+	
+	<select id="getClassInfoOne" resultType="map" parameterType="String">
+	select cl_no "cl_no" from class_info
+	where member_id=#{id}
+	</select>
+	
+	<select id="getMemberId" resultType="map" parameterType="String">
+		select member_id "member_id"
+		from member
+		where name=#{name}
+	
+	</select>
+
+</mapper>

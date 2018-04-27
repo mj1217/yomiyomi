@@ -1,0 +1,586 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="getMember" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b319d226-3c12-48e7-968a-27d4a7ebb43f">
+	<property name="ireport.zoom" value="1.4641000000000006"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="21"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="in_style" fontName="맑은 고딕" pdfFontName="malgun.ttf" pdfEncoding="Identity-H" isPdfEmbedded="false"/>
+	<subDataset name="Table Dataset 1" uuid="552a03b5-d026-4db7-b45e-979d02307710"/>
+	<queryString>
+		<![CDATA[select MEMBER_ID
+,PWD
+,GET_CODENAME(MEMBER_CD) MEMBER_CD
+,NAME
+,ENG_NAME
+,SOCIAL_NUMBER
+,SCHOOL_SPEC_CD
+,MAJOR
+,EMAIL
+,ADDRESS
+,PHONE
+,H_PHONE
+,GET_CODENAME(OPEN_ROUTE_CD) OPEN_ROUTE_CD
+,OPEN_ROUTE_ETC
+,PREVIOUS_JOB
+,JOB_CHANGE_DATE
+,GET_CODENAME(BOHUN_YN) BOHUN_YN
+,GET_CODENAME(COURSE_TYPE_CD) COURSE_TYPE_CD
+,CL_NO
+,CLASS_NAME
+,C_ADDRESS
+,TIMETABLE
+,TOTALTIME
+,GET_CODENAME(CLASS_CD) CLASS_CD
+,TOTALDAYS
+,GET_CODENAME(UNEMPLOYEE_PAY_YN) UNEMPLOYEE_PAY_YN
+from members_vo where member_id = '920505-03']]>
+	</queryString>
+	<field name="MEMBER_ID" class="java.lang.String"/>
+	<field name="PWD" class="java.lang.String"/>
+	<field name="MEMBER_CD" class="java.lang.String"/>
+	<field name="NAME" class="java.lang.String"/>
+	<field name="ENG_NAME" class="java.lang.String"/>
+	<field name="SOCIAL_NUMBER" class="java.lang.String"/>
+	<field name="SCHOOL_SPEC_CD" class="java.lang.String"/>
+	<field name="MAJOR" class="java.lang.String"/>
+	<field name="EMAIL" class="java.lang.String"/>
+	<field name="ADDRESS" class="java.lang.String"/>
+	<field name="PHONE" class="java.lang.String"/>
+	<field name="H_PHONE" class="java.lang.String"/>
+	<field name="OPEN_ROUTE_CD" class="java.lang.String"/>
+	<field name="OPEN_ROUTE_ETC" class="java.lang.String"/>
+	<field name="PREVIOUS_JOB" class="java.lang.String"/>
+	<field name="JOB_CHANGE_DATE" class="java.lang.String"/>
+	<field name="BOHUN_YN" class="java.lang.String"/>
+	<field name="COURSE_TYPE_CD" class="java.lang.String"/>
+	<field name="CL_NO" class="java.math.BigDecimal"/>
+	<field name="CLASS_NAME" class="java.lang.String"/>
+	<field name="C_ADDRESS" class="java.lang.String"/>
+	<field name="TIMETABLE" class="java.lang.String"/>
+	<field name="TOTALTIME" class="java.math.BigDecimal"/>
+	<field name="CLASS_CD" class="java.lang.String"/>
+	<field name="TOTALDAYS" class="java.math.BigDecimal"/>
+	<field name="UNEMPLOYEE_PAY_YN" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="14" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="707" splitType="Stretch">
+			<staticText>
+				<reportElement style="in_style" x="0" y="66" width="145" height="30" uuid="8f37bc84-0670-4203-b40a-14fabd5b63f9"/>
+				<box>
+					<topPen lineWidth="1.25"/>
+					<leftPen lineWidth="1.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[지원 과정]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="in_style" x="0" y="96" width="145" height="30" uuid="80678672-6611-4d36-8289-9a93f073639a"/>
+				<box>
+					<leftPen lineWidth="1.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[훈련 기간]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="in_style" x="173" y="50" width="382" height="16" uuid="6f4b79c0-0a5e-48d3-9892-4a9c170a8a2e"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="1.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{CLASS_CD}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="in_style" x="145" y="66" width="410" height="30" uuid="b7fb3236-9720-4b0f-a5b0-78c23477726c"/>
+				<box>
+					<topPen lineWidth="1.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="1.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{CLASS_NAME}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="in_style" x="0" y="126" width="67" height="31" uuid="5bf5d160-04a8-40d0-a3c3-8fa6a7411bb8"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="1.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[성명]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="in_style" x="0" y="157" width="67" height="31" uuid="ac533d89-c04b-45c2-9849-cd9f31541d57"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="1.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[최종학력
+및 전공]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="in_style" x="300" y="157" width="100" height="31" uuid="24020e93-89e8-4fff-9ae9-25e869f6487d"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[주민등록번호]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="in_style" x="0" y="188" width="67" height="31" uuid="ba87cfe9-ced1-4c31-93d0-174a6071011d"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="1.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[E-mail]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="in_style" x="67" y="188" width="488" height="31" uuid="c3328c38-53c9-4251-a5a4-80a8d7584008"/>
+				<box leftPadding="5">
+					<topPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="1.25"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{EMAIL}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="in_style" x="0" y="219" width="67" height="31" uuid="a25fbf20-2392-4048-8822-cf1624985b5f"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="1.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[주소]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="in_style" x="67" y="219" width="488" height="31" uuid="e570d619-1e18-4949-b335-b5542188b07b"/>
+				<box leftPadding="5">
+					<topPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="1.25"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{ADDRESS}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="in_style" x="0" y="250" width="67" height="31" uuid="de4bd4ea-8d0b-4c65-b07a-031ab56b183a"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="1.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[연락처]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="in_style" x="67" y="250" width="78" height="31" uuid="e0a177db-f10d-4093-a537-f16dca9b4be5"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[전화번호]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="in_style" x="300" y="250" width="100" height="31" uuid="c7195fbf-85e3-43db-94f7-05433b3baf15"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[휴대폰]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="in_style" x="145" y="250" width="155" height="31" uuid="ccd41164-f3bb-4fd4-b786-19a04cc817b6"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{PHONE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="in_style" x="400" y="250" width="155" height="31" uuid="475b7e74-0d17-4666-8343-e891dc61ce44"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="1.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{H_PHONE}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="in_style" x="0" y="281" width="67" height="31" uuid="a00aec06-9fde-4f6f-b958-174ccbc65d69"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="1.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[훈련
+참여경로]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="in_style" x="67" y="281" width="133" height="31" uuid="3a07bef1-f1a1-40e9-b1e4-8f570a270a9e"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{OPEN_ROUTE_CD}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="in_style" x="200" y="281" width="355" height="31" uuid="8abb54d3-9f02-4a4b-8cfb-f67f8332fd8f"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="1.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{OPEN_ROUTE_ETC}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="in_style" x="0" y="312" width="67" height="31" uuid="dc03e1a9-c155-441b-addd-cf413da8215b"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="1.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[실업급여
+수급여부]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="in_style" x="67" y="312" width="78" height="31" uuid="874346de-40f9-4da4-ba24-328b64c5cbdd"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{UNEMPLOYEE_PAY_YN}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="in_style" x="145" y="312" width="55" height="31" uuid="c3e81bc1-061a-45ca-8e54-b84d15135a49"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[이직 전
+직장명]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="in_style" x="200" y="312" width="159" height="31" uuid="ebac7456-f419-4b88-b5c4-99f6c153a27e"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{PREVIOUS_JOB}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="in_style" x="359" y="312" width="60" height="31" uuid="9eec35d2-eb5f-4301-a22c-8574f39e84b9"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[이직일자]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="in_style" x="419" y="312" width="136" height="31" uuid="8c1b0b6c-a95c-4bab-9cb8-a5137c6d5e23"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="1.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{JOB_CHANGE_DATE}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="in_style" x="0" y="343" width="67" height="30" uuid="b6aaf89b-44f9-49aa-9aab-8916ac926a54"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="1.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[보훈대상자]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="in_style" x="67" y="343" width="133" height="30" uuid="2e643fa1-e03d-4fb6-9dfa-7103c93f9e72"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{BOHUN_YN}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="in_style" x="300" y="126" width="100" height="31" uuid="0d6968d8-d55f-4f6a-a9ec-335f03e19b82"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[영문명]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="in_style" x="400" y="126" width="155" height="31" uuid="923371a5-c9f0-482b-9140-28964eda4d50"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="1.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{ENG_NAME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="in_style" x="145" y="126" width="155" height="31" uuid="7f839161-fd94-49fc-a138-fa230a6f300c"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{NAME}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="in_style" x="67" y="157" width="233" height="31" uuid="4c205359-a8f2-424e-b9bd-2cee5827b44d"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{SCHOOL_SPEC_CD}.concat( " ").concat( $F{MAJOR}) ]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="in_style" x="400" y="157" width="155" height="31" uuid="0f2de0cb-18b6-440e-b222-94dbfa3d05a9"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="1.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{SOCIAL_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="in_style" x="200" y="343" width="355" height="30" uuid="e586d007-f1ab-4a90-89e2-63e87f489c4a"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="1.25"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[보훈대상자 해당시, 월 4만원 지급 (3개월에 한번씩)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="in_style" x="51" y="407" width="475" height="44" uuid="cfaea077-512d-4ef4-a96c-b4544e9c8f94"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0"/>
+				<text><![CDATA[ ※ 위 본인은 귀 교육원 및 노동부 관련규정을 준수하고, 훈련생으로서 본분을 다할 것을 서약하며,
+
+     상기와 같이 신청합니다.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="in_style" x="259" y="509" width="100" height="20" uuid="00748b1e-4878-49c4-99cd-7ea50565a7f9"/>
+				<text><![CDATA[신청인]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="in_style" x="469" y="509" width="86" height="20" uuid="173b4084-6a7d-4614-bd5e-9d4fb9100123"/>
+				<text><![CDATA[서명(인)]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="in_style" x="359" y="509" width="110" height="20" uuid="f48cd489-3007-456f-8b77-2d876946a917"/>
+				<textFieldExpression><![CDATA[$F{NAME}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="in_style" x="0" y="1" width="173" height="33" uuid="8f586790-8d32-4241-aaf0-52a6eaf72669"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="1.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="1.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[모집 구분]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="in_style" x="173" y="1" width="382" height="49" uuid="9877c9c5-bb82-4370-82e5-78157e58a5a5"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="1.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="맑은 고딕" size="24"/>
+				</textElement>
+				<text><![CDATA[훈련 수강 신청서]]></text>
+			</staticText>
+			<image>
+				<reportElement style="in_style" x="49" y="580" width="406" height="52" uuid="88774b96-93c4-4c04-93ed-c2239239ae30"/>
+				<imageExpression><![CDATA["yedam_image.gif"]]></imageExpression>
+			</image>
+			<line>
+				<reportElement style="in_style" x="0" y="0" width="555" height="1" uuid="7d8e2c4a-73f3-4f03-9d85-713b1e19a94b"/>
+			</line>
+			<textField>
+				<reportElement style="in_style" x="0" y="34" width="173" height="32" uuid="f51d94a8-3709-452d-9389-913cad713ea0"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="1.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="1.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{COURSE_TYPE_CD}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="in_style" x="300" y="96" width="100" height="30" uuid="6ee8bd04-055e-4cb4-b435-7ac97da9ef85"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[~]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="145" y="96" width="155" height="30" uuid="1f5d4eb0-a829-401e-94de-2bc0e604776b"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="400" y="96" width="155" height="30" uuid="69b7afc3-a25c-4c8e-8d8f-71cf80b0b72f"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="1.25"/>
+				</box>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="373" width="1" height="328" uuid="c06a8792-10eb-4727-bf19-be5b864235cd"/>
+				<graphicElement>
+					<pen lineWidth="1.25"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="555" y="373" width="2" height="328" uuid="857ac054-2107-4c97-9128-7a452deb74a2"/>
+				<graphicElement>
+					<pen lineWidth="1.25"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="1" y="701" width="556" height="1" uuid="9f27384a-cc40-433c-842c-7f4ee0700696"/>
+				<graphicElement>
+					<pen lineWidth="1.25"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement style="in_style" x="67" y="126" width="78" height="31" uuid="02557181-dff5-4d43-82a2-ead5a99363a2"/>
+				<box>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="맑은 고딕"/>
+				</textElement>
+				<text><![CDATA[한글명]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

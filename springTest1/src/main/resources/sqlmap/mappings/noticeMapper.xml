@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="notice">
+	<resultMap type="notice" id="NoticeResult">
+		<id property="n_no" column="n_no" />
+		<result property="title" column="title" />
+		<result property="content" column="content" />
+		<result property="ndate" column="ndate" />
+		<result property="viewcount" column="viewcount" />
+		<result property="writer" column="writer" />
+		<result property="filename" column="filename" />
+		<result property="priority_yn" column="priority_yn" />
+	</resultMap>
+
+	<!-- 공지사항 목록조회 -->
+	<select id="getNoticeList" resultType="notice">	 <!--id 값은 메소드 명 --> <!-- resultMap은 위 resultMap id와 매치 --> <!-- resultType : sql-map-config에 alias 사용 (원래는 경로 다 써야함) -->
+		<![CDATA[
+		select a.* from ( select rownum rn,b.* from(
+		select 	n_no 	
+				,title
+				,content
+				,writer
+				,ndate
+				,viewcount
+				,priority_yn
+				,filename 	
+		 from notice 
+		 ]]>
+		 <where>
+		 <if test="searchKeyword != null and searchKeyword != ''" >
+ 		 	<if test="searchCondition == 'title' ">
+		 		 and title like '%' ||#{searchKeyword}||'%'
+		 	</if>
+		 	<if test="searchCondition == 'content' ">
+		 		 content like '%' ||#{searchKeyword}||'%'
+		 	</if>
+		 </if>
+		 </where>
+		  order by nvl(priority_yn,0) desc,n_no desc
+		 ) b ) a where rn between #{first} and #{last}		
+	</select>
+
+	<!-- 공지사항 등록 -->
+	<insert id="insertNotice" parameterType="notice">
+		<selectKey keyProperty="n_no" resultType="int" order="BEFORE">
+			select view_cnt.nextval from dual
+		</selectKey>
+		insert into notice(
+		n_no
+		,title
+		,content
+		,ndate
+		,viewcount
+		,writer
+		,priority_yn
+		<if test="filename != null and filename !=''">
+			,filename
+		</if>
+		)
+		values(
+		#{n_no}
+		,#{title}
+		,#{content}
+		,sysdate
+		,0
+		,#{writer} 
+		,nvl(#{priority_yn},0)
+		<if test="filename != null and filename !=''">
+			,#{filename}
+		</if>
+		)
+	</insert>
+	 
+	 <!-- 조회수 증가 -->
+	 <update id="updateView" parameterType="int">
+         update notice
+         set
+            viewcount = nvl(viewcount, 0) + 1
+         where
+            n_no = #{n_no}
+	 </update>
+
+
+	<!-- 공지사항 수정 -->
+	<update id="updateNotice" parameterType="notice">
+		update notice set
+		n_no=#{n_no}
+		,title=#{title}
+		,content=#{content}
+		,ndate=sysdate
+		,writer=#{writer}
+		,priority_yn=#{priority_yn}
+		<if test="filename != null and filename !=''">
+			,filename=#{filename}
+		</if>
+		where n_no=#{n_no}
+	</update>
+	
+	
+	<!-- 공지사항 삭제 -->
+	<delete id="deleteNotice" parameterType="notice">
+		delete notice where n_no=#{n_no}  
+	</delete>
+ 	
+ 	<!-- 검색목록 페이징 -->
+ 	<select id="getCount" resultType="int">
+		select count(*) from notice 
+		<where>
+		 <if test="searchKeyword != null and searchKeyword !=''" >
+ 		 	<if test="searchCondition == 'title' ">
+		 		 and title like '%' ||#{searchKeyword}||'%'
+		 	</if>
+		 	<if test="searchCondition == 'content' ">
+		 		 content like '%' ||#{searchKeyword}||'%'
+		 	</if>
+		 </if>
+		 </where>
+	</select>
+	
+	<!-- 상세보기 -->
+	<select id="getNotice" resultType="notice" parameterType="notice">
+		select * from notice where n_no=#{n_no}
+	</select>
+	
+	
+</mapper>

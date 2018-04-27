@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="member">
+
+	<!-- getMemberList 목록검색 -->
+	<select id="getMemberList" resultType="member" parameterType="String">
+
+		select * from members_vo
+		order by member_cd desc
+
+	</select>
+
+	<select id="">
+
+
+	</select>
+
+	<select id="getMember_id" resultType="member" parameterType="String">
+		select * from members_vo
+
+		where member_id = #{member_id}
+	</select>
+
+	<select id="getMember_idPdf" resultType="map" parameterType="String">
+		select MEMBER_ID
+		,PWD
+		,GET_CODENAME(MEMBER_CD) MEMBER_CD
+		,NAME
+		,NVL(ENG_NAME,' ') ENG_NAME
+		,NVL(SOCIAL_NUMBER,' ') SOCIAL_NUMBER
+		,NVL(SCHOOL_SPEC_CD,' ') SCHOOL_SPEC_CD
+		,NVL(MAJOR,' ') MAJOR 
+		,NVL(EMAIL,' ') EMAIL
+		,NVL(ADDRESS,' ') ADDRESS
+		,NVL(PHONE,' ') PHONE
+		,NVL(H_PHONE,' ') H_PHONE
+		,NVL(GET_CODENAME(OPEN_ROUTE_CD),' ') OPEN_ROUTE_CD
+		,NVL(GET_CODENAME(OPEN_ROUTE_ETC),' ') OPEN_ROUTE_ETC
+		,NVL(ENG_NAME,' ') ENG_NAME
+		,NVL(PREVIOUS_JOB,' ') PREVIOUS_JOB
+		,NVL(TO_CHAR(JOB_CHANGE_DATE,'YYYY/MM/DD'),' ') JOB_CHANGE_DATE
+		,NVL(GET_CODENAME(BOHUN_YN),' ') BOHUN_YN
+		,NVL(GET_CODENAME(UNEMPLOYEE_PAY_YN),' ') UNEMPLOYEE_PAY_YN
+		,GET_CODENAME(COURSE_TYPE_CD) COURSE_TYPE_CD
+		,CL_NO
+		,CLASS_NAME
+		,C_ADDRESS
+		,TIMETABLE
+		,TOTALTIME
+		,GET_CODENAME(CLASS_CD) CLASS_CD
+		,TOTALDAYS
+		from members_vo 
+		<where>
+			<if test="member_id != null and member_id !=''">
+				member_id = #{member_id}
+			</if>
+		
+			<if test="class_name != null and class_name != ''">
+				and class_name like #{class_name}
+			</if>
+		</where>	
+	</select>
+
+
+	<!-- 비밀번호 update -->
+	<update id="changePwd" parameterType="member">
+		update member
+		set pwd =
+		#{pwd2}
+		where member_id = #{member_id}
+	</update>
+
+	<!-- update -->
+	<update id="memberUpdate" parameterType="member">
+		update member
+		set name = #{name},
+		eng_name = #{eng_name},
+		school_spec_cd
+		= #{school_spec_cd},
+		major = #{major},
+		social_number = #{social_number},
+		email = #{email},
+		address = #{address},
+		phone = #{phone},
+		h_phone =
+		#{h_phone},
+		status_cd = #{status_cd},
+		open_route_cd = #{open_route_cd},
+		open_route_etc = #{open_route_etc},
+		unemployee_pay_yn =
+		#{unemployee_pay_yn},
+		previous_job = #{previous_job},
+		bohun_yn =
+		#{bohun_yn},
+		<if test="job_change_date != null">job_change_date = #{job_change_date}</if>
+		where member_id = #{member_id}
+		<!-- email = #{email} || "@" || #{email2} -->
+	</update>
+
+
+
+	<!-- <select id="getCount" resultType="int" parameterType="emp"> select 
+		count(*) from hr.employees <where> <if test="searchKeyword != null and searchKeyword 
+		!= ''" > <if test="searchCondition == 'last_name' "> and last_name like '%' 
+		||#{searchKeyword}||'%' </if> <if test="searchCondition == 'salary' "> salary 
+		like '%' ||#{searchKeyword}||'%' </if> </if> </where> </select> -->
+
+	<!-- <select id="getDeptEmpStatistic" resultType="map"> select dept.department_name 
+		"name", count(*) "cnt", avg(emp.salary) "sal" from hr.departments dept join 
+		hr.employees emp on(dept.department_id = emp.department_id) group by dept.department_name 
+		</select> -->
+
+
+</mapper>

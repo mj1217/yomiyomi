@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="dataview">
+
+
+	<resultMap type="map" id="sampleResult">
+	<id property="t_id" column="T_ID"/>
+	<result property="s_date" column="S_DATE"/>
+	<result property="classtime_cd" column="CLASSTIME_CD"/>
+	<result property="subject" column="SUBJECT"/>
+	<result property="totaltime" column="TOTALTIME"/>
+	<result property="cl_no" column="CL_NO"/>
+ 	</resultMap>
+ 	
+ 	
+ 	<resultMap type="map" id="codeResult">
+	<id property="code_no" column="CODE_NO"/>
+	<result property="code_name" column="CODE_NAME"/>
+ 	</resultMap>
+
+
+
+
+	<select id="getDataList" resultMap="sampleResult" parameterType="map">
+
+	select st.t_id,to_char(st.s_date,'YYYY-MM-DD') s_date,st.classtime_cd,st.subject,sb.totaltime,sb.cl_no 
+	from subject_timetable st join subject sb
+	on (sb.su_no = st.subject)
+	where s_date=#{day} and sb.cl_no=(select cl_no from class where class_name=#{classs} and class_cd='C1')
+
+
+
+		<!-- select t_id,classtime_cd from total_data_v 
+		where class_name=#{classs}
+		 -->
+	</select>
+	
+	<select id="getCodeName" resultMap="codeResult" parameterType="map">
+
+		select code_no,code_name from code
+		where code_no=#{classtime_cd}
+
+	</select>
+	
+	<select id="checkTimeTable" resultType="map" parameterType="map">
+	
+		select t_id "t_id",s_date "s_date", classtime_cd "classtime_cd",subject "subject",temp "temp",cl_no "cl_no"
+		from subject_timetable
+	
+	</select>
+	
+	<select id="checkAttTable" resultType="map" parameterType="map">
+	
+		select a_id "a_id",s_name "s_name",attendance "attendance",t_id "t_id"
+		from subject_attendance
+	
+	</select>
+
+	<select id="convertCode" resultType="map" parameterType="String">
+		select code_no "code_no"
+		from code
+		where code_name=#{name}
+	
+	</select>
+	
+	<select id="convertSubject" resultType="map" parameterType="map">
+		select su_no "su_no"
+		from subject
+		where subject=#{subject} and cl_no=#{cl_no}
+	
+	</select>
+
+	<select id="getRowNum" resultType="map">
+		select max(rownum) "rn"
+		from subject_timetable
+	
+	</select>
+	
+	<select id="getRowNumAtt" resultType="map">
+		select max(rownum) "rn"
+		from subject_attendance
+	
+	</select>
+
+	<select id="getClassMemberList" resultType="map" parameterType="Integer">
+		select m.name "name"
+		from member m join class_info ci
+		on ( m.member_id = ci.member_id)
+		where ci.cl_no=#{sub_no}
+	</select>
+	
+	<select id="getTimetableList" resultType="map" parameterType="Integer">
+		select t_id "t_id"
+		from subject_timetable
+		where cl_no=#{sub_no}
+		order by temp
+	
+	</select>
+
+
+	<update id="updateAtt" parameterType="map">
+
+		update SUBJECT_ATTENDANCE
+		set attendance=1
+		where t_id=#{t_id} and s_name=#{name}
+
+	</update>
+	
+
+	<insert id="insertTimeTable" parameterType="map">
+		insert into subject_timetable 
+		values(#{t_id},#{s_date},#{classtime_cd},#{subject},#{temp},#{cl_no})
+	
+	</insert>
+
+	<insert id="insertAttendance" parameterType="map">
+		insert into subject_attendance values(#{a_id},#{s_name},#{attendance},#{t_id})
+	</insert>
+	
+
+</mapper>

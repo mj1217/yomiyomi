@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="consult">
+
+	<insert id="insertConsult" parameterType="consult">
+	<selectKey keyProperty="c_no" resultType="int" order="BEFORE">
+		SELECT NVL(MAX(c_no),0)+1 FROM CONSULT
+	</selectKey>
+		INSERT INTO CONSULT(
+								c_no
+								,cdate
+								,s_detail
+								,cl_no
+								,title
+								,content
+								,writer
+							   )
+		VALUES(
+				#{c_no}
+				,sysdate
+				,#{s_detail}
+				,#{cl_no}
+				,#{title}
+				,#{content}
+				,#{writer}
+			)
+	</insert>
+
+	<update id="updateConsult" parameterType="consult">
+		UPDATE CONSULT SET 
+								s_detail=#{s_detail}
+								,cl_no=#{cl_no}
+								,cdate=sysdate
+								,title=#{title}
+								,content=#{content}
+		WHERE c_no = #{c_no}
+	</update>
+	
+	<delete id="deleteConsult" parameterType="consult">
+		DELETE CONSULT WHERE c_no=#{c_no}
+	</delete>
+	
+	<select id="getCount" resultType="int">
+		SELECT COUNT(*) FROM CONSULT
+	</select>
+	
+	<select id="getConsult" resultType="consult" parameterType="consult">
+		SELECT c_no
+				,TO_CHAR(cdate,'YYYY-MM-DD') "cdate"
+				,s_detail
+				,(	SELECT m.name 
+					FROM member m
+					WHERE m.member_id = c.s_detail)	"s_name"
+				,cl_no
+				,( SELECT cl.class_name
+					FROM class cl
+					WHERE cl.cl_no = c.cl_no) "c_name"
+				,title
+				,content
+				,writer
+				,(	SELECT m.name
+					FROM member m
+					WHERE m.member_id=c.writer ) "c_writer"
+		 FROM CONSULT c WHERE c_no=#{c_no}	
+	</select>
+	
+	<select id="getConsultAjax" resultType="consult" parameterType="consult">
+		SELECT c_no
+				,TO_CHAR(cdate,'YYYY-MM-DD') "cdate"
+				,s_detail
+				,(	SELECT m.name 
+					FROM member m
+					WHERE m.member_id = c.s_detail)	"s_name"
+				,cl_no
+				,( SELECT cl.class_name
+					FROM class cl
+					WHERE cl.cl_no = c.cl_no) "c_name"
+				,title
+				,content
+				,writer
+				,(	SELECT m.name
+					FROM member m
+					WHERE m.member_id=c.writer ) "c_writer"
+		
+		 FROM CONSULT c WHERE s_detail=#{s_detail}	
+	</select>
+	
+	<select id="getConsultList" resultType="consult">
+	select a.* from ( select rownum rn, b.* from (
+		SELECT  c_no
+				,TO_CHAR(cdate,'YYYY-MM-DD') "cdate"
+				,s_detail
+				,(	SELECT m.name 
+					FROM member m
+					WHERE m.member_id = c.s_detail)	"s_name"
+				,cl_no
+				,( SELECT cl.class_name
+					FROM class cl
+					WHERE cl.cl_no = c.cl_no) "c_name"
+				,title
+				,content
+				,writer
+				,(	SELECT m.name
+					FROM member m
+					WHERE m.member_id=c.writer ) "c_writer"
+		FROM CONSULT c
+		ORDER BY cdate DESC
+		) b ) a where rn between #{first} and #{last}
+	</select>
+	
+	
+	
+	<select id="getConsultListSelect" resultType="consult" parameterType="String">
+	
+		SELECT  c_no
+				,TO_CHAR(cdate,'YYYY-MM-DD') "cdate"
+				,s_detail
+				,(	SELECT m.name 
+					FROM member m
+					WHERE m.member_id = c.s_detail)	"s_name"
+				,cl_no
+				,( SELECT cl.class_name
+					FROM class cl
+					WHERE cl.cl_no = c.cl_no) "c_name"
+				,title
+				,content
+				,writer
+				,(	SELECT m.name
+					FROM member m
+					WHERE m.member_id=c.writer ) "c_writer"
+		FROM CONSULT c
+		where s_detail=#{m_memberid}
+		ORDER BY cdate DESC
+	
+	</select>
+	
+	
+	
+
+	<select id="getStudentList" resultType="member" parameterType="consult">
+		SELECT m.name as "name"
+				,m.member_id "member_id"
+		FROM member m JOIN class_info ci
+		ON(m.member_id = ci.member_id)
+		JOIN class c
+		ON(ci.CL_NO = c.cl_no)
+		WHERE c.cl_no=#{cl_no}
+		
+	</select>
+	
+
+</mapper>

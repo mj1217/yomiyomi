@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="unit">
+	
+	<insert id="insertExcel" parameterType="excel">
+		<selectKey keyProperty="no" resultType="int" order="BEFORE">
+			SELECT NVL(MAX(no),0)+1 FROM tempattend
+		</selectKey>
+		
+		INSERT INTO TEMPATTEND(	no,
+								day,
+	 							card,
+								name,
+								classs,
+								starttime,
+								endtime,
+								intime,
+								outtime
+								)
+		VALUES(
+				#{no},
+				#{day},
+				#{card},
+				#{name},
+				#{classs},
+				#{start},
+				#{end},
+				#{in},
+				#{out}
+				)
+	</insert>
+
+
+	<insert id="insertUnit" parameterType="unit" statementType="CALLABLE">
+		{CALL UNITINSERT(
+						#{class_no}, 
+						#{unit},
+						#{unitdays},
+						#{sdate},
+						#{edate},
+						#{OUT_MSG, mode=OUT, jdbcType=VARCHAR, javaType=string}
+						)
+		}
+	</insert>
+
+	<update id="calculateAttend" statementType="CALLABLE">
+		{CALL calculate_attend()}
+	</update>
+
+	<select id="getUnitList" resultType="unit" parameterType="unit">
+		SELECT	c_no,
+				student_name,
+				class_no,
+				unit,
+				unitdays,
+				sdate,
+				edate,
+				late,
+				leave,
+				absence,
+				goout
+		FROM	unit_attendance
+		WHERE student_name NOT IN ('XMAN')
+		<if test="class_no != '' and class_no !=null ">
+		AND class_no = #{class_no}
+		</if>
+		Order by student_name, unit
+	</select>
+	
+
+	<select id="getSDATE" resultType="unit" parameterType="unit">
+		 SELECT DISTINCT sdate,edate 
+		 FROM UNIT_ATTENDANCE 
+		 <if test="class_no != '' and class_no !=null ">
+		 WHERE class_no = #{class_no} 
+		 </if>
+
+		 order by 1 asc
+	</select>
+	
+	<select id="getAttendDays" resultType="unit" parameterType="unit">
+		SELECT  SUM(late) as "late"
+		FROM unit_attendance
+		WHERE student_name='XMAN'
+		AND class_no=#{class_no}
+	
+	</select>
+
+
+	<update id="lateUpdate" parameterType="unit" >
+		UPDATE unit_attendance set
+							leave = NVL(MAX(leave),0)+1
+		WHERE 
+	</update>
+	
+	<select id="getUnit" parameterType="unit" resultType="unit">
+		SELECT 
+				c_no,
+				student_name,
+				late,
+				leave,
+				absence,
+				unit,
+				class_no,
+				goout,
+				unitdays,
+				sdate,
+				edate
+				
+		FROM UNIT_ATTENDANCE
+		WHERE student_name=#{student_name}
+		ORDER BY unitdays
+	</select>
+	
+	<select id="getAbsence" parameterType="unit" resultType="unit">
+		SELECT sum(trunc(unitdays*0.2,0)) as "absenceDays"
+		FROM unit_attendance
+		WHERE class_no = #{class_no}
+		AND student_name='XMAN'
+	</select>
+	
+	<select id="getScore" parameterType="unit" resultType="unit">
+		SELECT  trunc(sum(late/3),1)+ trunc(sum(leave/3),1)+ trunc(sum(goout/3),1)+ trunc(sum(absence),1) as "score", student_name
+		FROM unit_attendance
+		WHERE class_no = #{class_no}
+		and student_name not in 'XMAN'
+        group by student_name
+        order by student_name
+	</select>
+
+
+</mapper>

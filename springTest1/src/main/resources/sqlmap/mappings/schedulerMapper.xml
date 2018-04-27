@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="scheduler">
+	<resultMap type="scheduler" id="SchedulerResult">
+		<id property="no" column="no" />
+		<result property="name" column="name" />
+		<result property="startday" column="startday" />
+		<result property="endday" column="endday" />
+		<result property="type" column="type" />
+		<result property="rotation_yn" column="rotation_yn" />
+	</resultMap>
+
+	
+	<!-- 공휴일,이벤트 조회 -->
+	<select id="getSchedulerajax" resultType="map">	 <!--id 값은 메소드 명 --> <!-- resultMap은 위 resultMap id와 매치 --> <!-- resultType : sql-map-config에 alias 사용 (원래는 경로 다 써야함) -->
+		select 	no as "id"
+				,name as "text"
+				,startday as "start_date"
+				,endday as "end_date"
+		 from scheduler
+	</select>		
+
+	<!--event,holiday 등록 -->
+	<insert id="insertSchedulerajax" parameterType="scheduler">
+		<selectKey keyProperty="no" resultType="int" order="BEFORE">
+			select nvl(max(no),0)+1 from scheduler
+		</selectKey>
+		insert into scheduler(
+		 no
+		,name
+		,startday
+		,endday
+			,type
+
+		)
+		values(
+		#{no}
+		,#{name}
+		,#{startday}
+		,#{endday}	
+			,'s'
+		
+		)
+	</insert>
+
+	<!-- 공휴일 수정 -->
+	<update id="updateSchedulerajax" parameterType="scheduler">
+		update scheduler set
+		name=#{name} 
+		,startday=#{startday}
+		,endday=#{endday}
+		where no=#{no}
+	</update>
+		
+	<!-- 공지사항 삭제 -->
+	<delete id="deleteSchedulerajax" parameterType="scheduler">
+		delete scheduler where no=#{no}  
+	</delete>
+	
+	
+</mapper>

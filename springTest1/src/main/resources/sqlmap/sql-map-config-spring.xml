@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	<!-- <settings>
+		<setting name="cacheEnabled" value="true" />
+		<setting name="lazyLoadingEnabled" value="false" />
+		<setting name="multipleResultSetsEnabled" value="true" />
+		<setting name="useColumnLabel" value="true" />
+		<setting name="useGeneratedKeys" value="false" />
+		<setting name="defaultExecutorType" value="SIMPLE" />
+		<setting name="defaultStatementTimeout" value="25000" />
+		오라클 컬럼이 first_name 를 VO firstName 처럼 카멜케이스로 변환
+		<setting name="mapUnderscoreToCamelCase" value="true" />
+	</settings>
+	<typeHandlers>
+		java.sql.Timestamp 를 java.util.Date 형으로 반환
+		<typeHandler javaType="java.sql.Timestamp"
+			handler="org.apache.ibatis.type.DateTypeHandler" />
+		<typeHandler javaType="java.sql.Time"
+			handler="org.apache.ibatis.type.DateTypeHandler" />
+		<typeHandler javaType="java.sql.Date"
+			handler="org.apache.ibatis.type.DateTypeHandler" />
+	</typeHandlers> -->
+<!-- 	<settings>
+		<setting name="mapUnderscoreToCamelCase" value="true"/>
+	</settings> -->
+	
+	<!-- Alias 설정 -->
+	<typeAliases>
+
+		<typeAlias alias="member" type="com.yedam.app.member.MemberVO" />
+		<typeAlias alias="sugt" type="com.yedam.app.sugt.SugtVO" />
+		<typeAlias alias="comments" type="com.yedam.app.sugt.CommentsVO"/>
+		<typeAlias alias="class" type="com.yedam.app.classes.ClassVO"/>
+		<typeAlias alias="notice" type="com.yedam.app.notice.NoticeVO"/>
+		<typeAlias alias="scheduler" type="com.yedam.app.scheduler.SchedulerVO"/>
+		<typeAlias alias="consult" type="com.yedam.app.consult.ConsultVO"/>
+		<typeAlias alias="subject" type="com.yedam.app.subject.SubjectVO"/>
+		<typeAlias alias="unit" type="com.yedam.app.unit.UnitVO"/>
+		<typeAlias alias="timeTable" type="com.yedam.app.timetable.TimeTableVO"/>
+		<typeAlias alias="clas" type="com.yedam.app.classes.ClassAttVO" />
+		<typeAlias alias="subjecttime" type="com.yedam.app.subject_timetable.SubjectTimeVO" />
+		<typeAlias alias="excel" type="com.yedam.app.unit.ExcelVO" />
+		
+	</typeAliases>
+	
+
+	
+
+
+</configuration>

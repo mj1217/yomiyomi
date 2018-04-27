@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="comments">
+
+	<select id="getCommentsList" resultType="comments" parameterType="comments"> 
+		SELECT A.* FROM ( SELECT B.*, ROWNUM RN FROM ( 
+		SELECT co_no            
+			   ,content         
+			   ,member_id      
+			   ,to_char(co_date,'yyyy-mm-dd HH24:mi:ss') c_date
+			   ,parent_no
+		  FROM COMMENTS  
+		 WHERE parent_no = #{parent_no}
+		  <if test="co_no != null and co_no != ''">
+		  <![CDATA[ 
+		  	and co_no > #{co_no}
+		  ]]>
+		  </if>
+		 ORDER BY co_no DESC 
+		 ) B ) A
+		  <![CDATA[ 
+		 WHERE RN <= #{pageUnit}
+		 ]]>
+	</select>
+	
+		<select id="getComments" resultType="comments" parameterType="comments"> 
+		SELECT co_no            
+			   ,content         
+			   ,member_id      
+			   ,to_char(co_date,'yyyy-mm-dd HH24:mi:ss') c_date
+			   ,parent_no
+		  FROM COMMENTS  
+		 WHERE co_no = #{co_no}
+	</select>
+	
+	<insert id="insertComments" parameterType="comments">
+		<selectKey keyProperty="co_no" resultType="int" order="BEFORE">
+			select nvl(max(co_no),0)+1 from comments
+		</selectKey>
+		INSERT INTO COMMENTS(
+							 co_no            
+			   		     	 ,content         
+						     ,member_id      
+						     ,co_date
+			 				 ,parent_no
+							) 
+			VALUES(
+				  #{co_no}
+				, #{content}
+				, #{member_id}
+				, sysdate
+				, #{parent_no}
+				)
+	</insert>
+	
+	<update id="updateComments" parameterType="comments">
+		update  COMMENTS SET 
+				content = #{content}
+			    ,co_date = sysdate 
+	     where  co_no = #{co_no}
+	</update>
+	
+	<delete id="deleteComments" parameterType="comments">
+		delete COMMENTS 
+		 <where> 
+		 	<choose>
+		 		<when test="parent_no != null and parent_no != ''">
+		 			parent_no = #{parent_no}	
+		 		</when>
+		 		<otherwise>
+		 			co_no = #{co_no}
+		 		</otherwise>
+		 	</choose>
+		 </where>
+	</delete>
+
+</mapper>

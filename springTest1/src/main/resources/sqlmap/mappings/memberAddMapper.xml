@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="memberAdd">
+
+	<resultMap type="map" id="memberResult">
+	<id property="member_id" column="member_id"/>
+	<result property="name" column="name"/>
+	<result property="class_name" column="class_name"/>
+	<result property="address" column="address"/>
+	<result property="status_cd" column="status_cd"/>
+ 	</resultMap>
+ 	
+ 	
+ 	
+
+
+	<!-- //학생추가 -->
+	<insert id="insertMember" parameterType="map">
+		insert into member (member_id,pwd,member_cd,name,social_number,status_cd) 
+		values ( #{id},'12345','M1',#{name},#{social_number},'ST1')  
+			
+	</insert>
+	
+	<select id="getRn" resultType="String">
+	
+		select max(rownum) rn 
+		from member
+	
+	</select>
+	
+	<select id="getMemberAddList" resultMap="memberResult">
+	
+		select m.member_id,m.name,cl.class_name,cl.address,get_codename(m.status_cd) status_cd 
+		from member m join class_info clin
+		on (m.member_id = clin.member_id)
+		join class cl
+		on (cl.cl_no = clin.cl_no)
+	
+	</select>
+	
+	
+	<select id="getMemberAjax" resultMap="memberResult" parameterType="String">
+	select m.member_id,m.name,cl.class_name,cl.address,get_codename(m.status_cd) status_cd
+	from member m join class_info clin
+	on (m.member_id = clin.member_id)
+	join class cl
+	on (cl.cl_no = clin.cl_no)
+	where cl.class_name=#{m_detail}
+	
+	</select>
+	
+
+</mapper>

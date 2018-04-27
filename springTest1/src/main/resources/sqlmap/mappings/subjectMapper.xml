@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="subject">
+	<resultMap type="subject" id="subjectResult">
+		<id property="su_no" column="su_no" />
+		<result property="status_yn" column="status_yn" />
+		<result property="subject" column="subject" />
+		<result property="totalTime" column="totalTime" />
+	</resultMap>
+
+	<resultMap type="class" id="class">
+		<id property="cl_no" column="cl_no" />
+		<result property="class_name" column="class_name" />
+		<collection property="subject" resultMap="subject"></collection>
+	</resultMap>
+	
+
+	<select id="getSubjectList" resultType="subject">
+	<![CDATA[
+	select a.* from ( select rownum rn, b.* from (
+
+		select su.su_no "su_no"
+				,su.subject "subject"
+				,su.totalTime "totalTime"
+				,cl.class_name "class_name"
+				,su.status_yn "status_yn"
+		from subject su join class cl
+		on(su.cl_no = cl.cl_no)
+		]]>
+		<where>
+			<if test="searchKeyword != null and searchKeyword != ''">
+				<if test="searchCondition == 'class_name' ">
+					and upper(class_name) like '%' || upper(#{searchKeyword}) ||'%'
+				</if>
+				<if test="searchCondition == 'subject' ">
+					upper(subject) like '%' || upper(#{searchKeyword}) ||'%'
+				</if>
+				<if test="searchCondition == 'status_yn' ">
+					upper(status_yn) like '%' || upper(#{searchKeyword}) ||'%'
+				</if>
+			</if>
+		</where>
+		order by su.su_no desc
+		
+	) b ) a where rn between #{first} and #{last}
+	</select>
+
+	<select id="getSubject" resultType="subject" parameterType="subject">
+		select su.su_no as "su_no"
+				,su.subject "subject"
+				,su.totalTime "totalTime"
+				,cl.class_name "class_name"
+				,su.status_yn "status_yn"
+		from subject su join class cl
+		on(su.cl_no = cl.cl_no)
+		where
+		su.su_no=#{su_no}
+
+	</select>
+
+	<!-- 검색목록 페이징 -->
+	<select id="getCount" resultType="int">
+		
+		select count(*) from subject su join class cl on (su.cl_no = cl.cl_no)
+		
+		<where>
+			<if test="searchKeyword != null and searchKeyword != ''">
+				<if test="searchCondition == 'class_name' ">
+					and upper(class_name) like '%' || upper(#{searchKeyword}) ||'%'
+				</if>
+				<if test="searchCondition == 'subject' ">
+					upper(subject) like '%' || upper(#{searchKeyword}) ||'%'
+				</if>
+				<if test="searchCondition == 'status_yn' ">
+					upper(status_yn) like '%' || upper(#{searchKeyword}) ||'%'
+				</if>
+			</if>
+		</where>
+		
+	</select>
+
+	<insert id="insertSubject" parameterType="map">
+		<selectKey keyProperty="su_no" resultType="int" order="BEFORE">
+			SELECT NVL(MAX(su_no),0)+1 FROM subject
+		</selectKey>
+		INSERT INTO subject(
+					su_no
+					,status_yn
+					,subject
+					,totalTime
+					,cl_no
+					)
+		VALUES(
+				#{su_no}
+				,'Y'
+				,#{subject}
+				,#{totalTime}
+				,#{cl_no}
+				)
+	</insert>
+
+	<update id="updateSubject" parameterType="subject">
+		update subject
+		SET
+				subject=#{subject}
+				,totalTime=#{totalTime}
+		<if test="cl_no != ''">
+				,cl_no=#{cl_no}
+		</if>
+				,status_yn=#{status_yn}
+		where su_no=#{su_no}
+	</update>
+
+	<delete id="deleteSubject" parameterType="subject">
+		DELETE subject
+		WHERE su_no=#{su_no}
+	</delete>
+	
+</mapper>
